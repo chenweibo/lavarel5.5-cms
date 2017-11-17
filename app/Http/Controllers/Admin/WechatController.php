@@ -150,12 +150,22 @@ class WechatController extends Controller
             $menu = new WechatMenu();
             $list =$menu->get()->toArray();
             $d=make_tree1($list);
-            foreach ($d as $v) {
-                foreach ($v['sub_button'] as $vo) {
-                    $q[]=['type'=>'view','name'=>$vo['name'],'url'=>$vo['url']];
+            if ($menu->where('pid', '!=', 0)->get()->first()) {
+                foreach ($d as $v) {
+                    if (isset($v['sub_button'])) {
+                        foreach ($v['sub_button'] as $vo) {
+                            $q[]=['type'=>'view','name'=>$vo['name'],'url'=>$vo['url']];
+                        }
+                        $z[]=['name'=>$v['name'], "sub_button" =>$q];
+                        unset($q);
+                    } else {
+                        $z[]=['type'=>'view','name'=>$v['name'],'url'=>$v['url']];
+                    }
                 }
-                $z[]=['name'=>$v['name'], "sub_button" =>$q];
-                unset($q);
+            } else {
+                foreach ($list as $v) {
+                    $z[]=['type'=>'view','name'=>$v['name'],'url'=>$v['url']];
+                }
             }
             $menu = $wechat->menu;
             $menus = $menu->current();

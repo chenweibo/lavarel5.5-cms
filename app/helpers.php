@@ -225,10 +225,11 @@ function Chinese($str)
 
     return implode("", $chinese[0]);
 }
-function compress_html($string){
-    $string=str_replace("\r\n",'',$string);//清除换行符
-    $string=str_replace("\n",'',$string);//清除换行符
-    $string=str_replace("\t",'',$string);//清除制表符
+function compress_html($string)
+{
+    $string=str_replace("\r\n", '', $string);//清除换行符
+    $string=str_replace("\n", '', $string);//清除换行符
+    $string=str_replace("\t", '', $string);//清除制表符
     $pattern=array(
         "/> *([^ ]*) *</",//去掉注释标记
         "/[\s]+/",
@@ -237,7 +238,7 @@ function compress_html($string){
         "/ \"/",
         "'/\*[^*]*\*/'"
     );
-    $replace=array (
+    $replace=array(
         ">\\1<",
         " ",
         "",

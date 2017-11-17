@@ -52,7 +52,9 @@
                                 <div class="input-group col-sm-4">
                                     <input id="url" type="text" class="form-control" name="url" required
                                            aria-required="true">
+                                    <span class="help-block m-b-none "><i class="fa fa-info-circle"></i> 如果是二级菜单此处随便填写</span>
                                 </div>
+
                             </div>
 
                             <div class="form-group">

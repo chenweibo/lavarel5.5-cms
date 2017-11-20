@@ -77,7 +77,7 @@
             var code = $('#code').val();
 
             $.ajax({
-                url: "{{ url('jksm') }}",
+                url: "{{ route('jksm') }}",
                 type: "post", //请求类型
                 data: {'username': username, 'password': password, 'captcha': code, '_token': token}, //请求的数据
                 dataType: "json",

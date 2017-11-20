@@ -11,9 +11,9 @@ Route::get('mysitemap', function () {
     $posts = DB::table('content')->where('type', 2)->get();
 
     // add every post to the sitemap
-//    foreach ($posts as $post) {
-//        $sitemap->add(route('productview', $post->rewrite), date('Y-m-d'), '0.9', 'daily');
-//    }
+    //    foreach ($posts as $post) {
+    //        $sitemap->add(route('productview', $post->rewrite), date('Y-m-d'), '0.9', 'daily');
+    //    }
 
     // generate your sitemap (format, filename)
     $sitemap->store('xml', 'sitemap');
@@ -21,9 +21,11 @@ Route::get('mysitemap', function () {
     // this will generate file mysitemap.xml to your public folder
 });
 
+
+
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 // 2017-8-3 by chenweibo common routes
-Route::any('/jksm', 'Admin\LoginController@index')->name('jksm');
+Route::any(config('site_other.admin_name'), 'Admin\LoginController@index')->name('jksm');
 Route::get('/adminloginout', 'Admin\LoginController@loginout')->name('adminout');
 Route::get('/error', 'Admin\AdminController@error')->name('error');
 Route::any('/uploads', 'Admin\CommonController@uploads')->name('uploads');
@@ -49,6 +51,7 @@ Route::group(['middleware' => ['adminbase','web'],'namespace' => 'Admin'], funct
     Route::get('/admin_index', 'AdminController@index')->name('AdminIndex');
     Route::get('/adminmain', 'AdminController@indexPage')->name('adminmain');
     Route::any('/site', 'AdminController@site')->name('site');
+    Route::any('/site_system', 'AdminController@site_system')->name('site_system');
 
     // 2017-7-16 by chenweibo slide routes
 

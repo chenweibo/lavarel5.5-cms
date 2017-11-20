@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Overtrue\Pinyin\Pinyin;
+use Illuminate\Support\Facades\Input;
 use App\Column;
 use App\Content;
 use App\User;
 use Excel;
+use Image;
 
 class CommonController extends Controller
 {
@@ -22,20 +24,47 @@ class CommonController extends Controller
                 $ext = $file->getClientOriginalExtension();
                 $realPath = $file->getRealPath();//临时文件的绝对路径
                 $type = $file->getClientMimeType();
-                $filename = uniqid() . '.' . $ext;
-                $bool = Storage::disk('uploads')->put('', $file);
-                return $bool;
+                if (!in_array(strtolower($ext), ['jpg', 'jpeg','png','gif'])) {
+                    $bool = Storage::disk('uploads')->put('', $file);
+                    return $bool;
+                }
+
+                $fileName = time().'-'.str_random(random_int(5, 9)).'.'.$ext;
+                $type= explode(':', config('site_other.shuiyin'));
+                if ($type[0]==0) {
+                    $img = Image::make($request->file('image'))->save('static/uploads/'.$fileName);
+                } else {
+                    $type_img=$type[1];
+                    $type_space=$type[2];
+                    $img = Image::make($request->file('image'))->insert('static/uploads/'.$type_img, $type_space)->save('static/uploads/'.$fileName);
+                }
+                //$img = Image::make($request->file('image'))->save('static/uploads/'.$fileName);
+                return $fileName;
             }
         }
     }
+
     public function EditUploads(Request $request)
     {
         $file = $request->file('images');
         $data=[];
+
+        $type= explode(':', config('site_other.shuiyin'));
+
         foreach ($file as $v) {
-            $bool = Storage::disk('uploads')->put('', $v);
-            $data[]='/static/uploads'.'/'.$bool;
+            $ext = $v->getClientOriginalExtension();
+            $fileName = time().'-'.str_random(random_int(5, 9)).'.'.$ext;
+            if ($type[0]==0) {
+                $img = Image::make($v)->save('static/uploads/'.$fileName);
+                $data[]='/static/uploads/'.$fileName;
+            } else {
+                $type_img=$type[1];
+                $type_space=$type[2];
+                $img = Image::make($v)->insert('static/uploads/'.$type_img, $type_space)->save('static/uploads/'.$fileName);
+                $data[]='/static/uploads/'.$fileName;
+            }
         }
+
         return ['errno'=>0,'data'=>$data ] ;
     }
 

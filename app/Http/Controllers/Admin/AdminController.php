@@ -22,8 +22,6 @@ class AdminController extends Controller
         $node= new Node();
         $usertype= new UserType();
         $info=$usertype->getRoleInfo(2);
-
-
         return view('AdminIndex', ['username'=>session('adminuser'),'rolename'=>session('role'),'menu'=>$node->getMenu(session('rule'))]);
     }
 
@@ -54,8 +52,30 @@ class AdminController extends Controller
                 return ['code'=>'0','msg'=>'发生未知错误联系管理员'];
             }
         }
+        
         $data=File::getRequire(config_path().'/site.php');
-        return view('admin/site/Site', ['data'=>$data]);
+        $shui=File::getRequire(config_path().'/site_other.php');
+
+        return view('admin/site/Site', ['data'=>$data,'shui'=>$shui]);
+    }
+    public function site_system(Request $request)
+    {
+        if ($request->ajax()) {
+            if ($request->code==0) {
+                $data['admin_name'] = $request->admin_name;
+                $data['shuiyin'] = 0;
+            } else {
+                $data['admin_name'] = $request->admin_name;
+                $data['shuiyin'] = $request->code.':'.$request->shuiImg.':'.$request->weizhi;
+            }
+
+            if (File::put(config_path().'/site_other.php', ConfigBack($data))) {
+                return ['code'=>'1','msg'=>'操作成功'];
+            } else {
+                return ['code'=>'0','msg'=>'发生未知错误联系管理员'];
+            }
+            return ['code'=>'0','msg'=>$request->all()];
+        }
     }
 
     public function SlideIndex($value='')

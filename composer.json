@@ -21,6 +21,7 @@
         "overtrue/pinyin": "~3.0",
         "rap2hpoutre/laravel-log-viewer": "^0.10.4",
         "roumen/sitemap": "^2.6",
+        "spatie/laravel-backup": "^5.1",
         "tymon/jwt-auth": "0.5.*"
     },
     "require-dev": {

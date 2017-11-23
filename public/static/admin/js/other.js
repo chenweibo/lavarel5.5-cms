@@ -572,7 +572,7 @@ function importXls(){
 function updateAjax()
 {
   $.ajax({
-      url: '/',
+      url: '/ststem/update',
       type: 'POST',
       headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -587,6 +587,9 @@ function updateAjax()
       },
       success: function (data) {
          layer.close(ac);
+         if (data.code==1) {
+           layer.msg(data.msg, {icon: 6});
+         }
 
       },
       error: function () {
@@ -612,12 +615,12 @@ function DetectionUpdate()
       },
       success: function (data) {
           layer.close(jz);
-          if (data.msg==0) {
+          if (data.code==0) {
               layer.msg(data.msg);
           }
           else {
 
-            layer.open({
+         var dd=    layer.open({
               type: 1
               ,title: false //不显示标题栏
               ,closeBtn: false
@@ -631,12 +634,8 @@ function DetectionUpdate()
               ,success: function(layero){
                 var btn = layero.find('.layui-layer-btn0');
                 btn.click(function(event) {
-
-                  var ac =layer.msg('更新中 请稍等 ，请勿刷新', {
-                          icon: 16
-                          ,shade: 0.01
-                          ,time: 2000000 //2秒关闭（如果不配置，默认是3秒）
-});
+                layer.close(dd);
+                updateAjax()
                 });
     //console.log(data.log);
 

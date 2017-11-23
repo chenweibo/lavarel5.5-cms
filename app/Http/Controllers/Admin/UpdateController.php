@@ -9,8 +9,22 @@ use Zipper;
 
 class UpdateController extends Controller
 {
-    public function update()
+    public function update(Request $request)
     {
+        if ($request->ajax()) {
+            set_time_limit(0);
+            $client = new Client();
+            $res = $client->request('GET', 'http://update.dqzd.com/version.txt');
+            $version = $res->getBody();
+            $this->Backup();
+            $this->downZip();
+            Zipper::make(base_path('base.zip'))->folder('')->extractTo(base_path());
+            $data=[
+             'version'=>$version,
+             ];
+            modifyEnv($data);
+            return ['code'=>1,'msg'=>'升级成功'];
+        }
     }
 
     public function DetectionUpdate()
@@ -25,19 +39,21 @@ class UpdateController extends Controller
         }
         return ['code'=>1 , 'msg'=>'发现新版本','log'=>iconv('gb2312', 'utf-8', $data)];
     }
-    public function BackupSql()
+    public function Backup()
     {
         //exec("cd ".$base .'&& php artisan backup:run --only-db', $output);
-
+        $base = base_path();
+        exec("cd ".$base .'&& php artisan backup:run', $output);
         //mysqldump -hlocalhost -uweblavarel -p weblavarel >D://dd.sql
         //$this->downZip();
-        Zipper::make(base_path('update.zip'))->folder('')->extractTo(base_path());
+        //Zipper::make(base_path('update.zip'))->folder('')->extractTo(base_path());
         //dd($a);
     }
+
 
     public function downZip()
     {
         $client = new Client(['verify' => false]);  //忽略SSL错误
-        $response = $client->get('http://update.dqzd.com/update.zip', ['save_to' => base_path('update.zip')]);
+        $response = $client->get('http://update.dqzd.com/base.zip', ['save_to' => base_path('base.zip')]);
     }
 }

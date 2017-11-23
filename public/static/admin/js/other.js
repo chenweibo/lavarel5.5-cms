@@ -569,6 +569,35 @@ function importXls(){
     }
   );
 }
+function updateAjax()
+{
+  $.ajax({
+      url: '/',
+      type: 'POST',
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      async: false,
+      beforeSend: function () {
+         ac =layer.msg('更新中 请稍等 ，请勿刷新', {
+                icon: 16
+                ,shade: 0.01
+                ,time: 2000000
+});
+      },
+      success: function (data) {
+         layer.close(ac);
+
+      },
+      error: function () {
+          layer.close(ac);
+          layer.msg("未知原因更新失败。联系管理员");
+
+      }
+
+  });
+
+}
 
 function DetectionUpdate()
 {
@@ -583,7 +612,38 @@ function DetectionUpdate()
       },
       success: function (data) {
           layer.close(jz);
-          layer.msg(data);
+          if (data.msg==0) {
+              layer.msg(data.msg);
+          }
+          else {
+
+            layer.open({
+              type: 1
+              ,title: false //不显示标题栏
+              ,closeBtn: false
+              ,area: '300px;'
+              ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+              ,resize: false
+              ,btn: ['马上更新', '取消']
+              ,btnAlign: 'c'
+              ,moveType: 1 //拖拽模式，0或者1
+              ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">'+data.log+'</div>'
+              ,success: function(layero){
+                var btn = layero.find('.layui-layer-btn0');
+                btn.click(function(event) {
+
+                  var ac =layer.msg('更新中 请稍等 ，请勿刷新', {
+                          icon: 16
+                          ,shade: 0.01
+                          ,time: 2000000 //2秒关闭（如果不配置，默认是3秒）
+});
+                });
+    //console.log(data.log);
+
+  }
+});
+          }
+
       },
 
   });
@@ -649,4 +709,31 @@ function setHtml(){
 
     }
   );
+}
+
+function clearCache()
+{
+  $.ajax({
+      type: 'GET',
+      url: '/clearCache',
+      dataType: 'json',
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      beforeSend: function () {
+          jz = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
+      },
+      success: function (data) {
+          layer.close(jz);
+          layer.msg(data.msg);
+      },
+      error: function () {
+          layer.close(jz);
+          layer.msg("清除失败。联系管理员");
+
+      }
+  });
+
+
+
 }

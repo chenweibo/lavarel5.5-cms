@@ -212,4 +212,11 @@ class CommonController extends Controller
         });
         return ['code'=>1];
     }
+
+    public function clearCache()
+    {
+        $base = base_path();
+        exec("cd ".$base .'&& php artisan cache:clear && php artisan view:clear', $output);
+        return ['code'=>1,'msg'=>'清除成功'];
+    }
 }

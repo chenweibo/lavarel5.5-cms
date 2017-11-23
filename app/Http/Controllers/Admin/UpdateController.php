@@ -16,12 +16,14 @@ class UpdateController extends Controller
     public function DetectionUpdate()
     {
         $client = new Client();
-        $res = $client->request('GET', 'http://update.dqzd.com/version.text');
+        $res = $client->request('GET', 'http://update.dqzd.com/version.txt');
         $version = $res->getBody();
+        $data = $client->request('get', 'http://update.dqzd.com/updatelog.txt')->getBody()->getContents();
+        // $data = file('http://update.dqzd.com/updatelog.txt');
         if ($version == env('version')) {
-            return '没有发现新版本';
+            return ['code'=>0 , 'msg'=>'没有发现新版本'];
         }
-        return '发现新版本';
+        return ['code'=>1 , 'msg'=>'发现新版本','log'=>iconv('gb2312', 'utf-8', $data)];
     }
     public function BackupSql()
     {

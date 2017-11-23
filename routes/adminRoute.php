@@ -35,6 +35,7 @@ Route::any('/ajaxSort', 'Admin\CommonController@ajaxSort')->name('ajaxSort');
 Route::any('/EditUploads', 'Admin\CommonController@EditUploads')->name('EditUploads');
 Route::any('/delImg', 'Admin\CommonController@delImg')->name('delImg');
 Route::any('/getcate', 'Admin\CommonController@getcate')->name('getcate');
+Route::any('/clearCache', 'Admin\CommonController@clearCache')->name('clearCache');
 
 // 2017-7-30 by chenweibo rewrite routes
 Route::any('admin/common/rewrite', 'Admin\CommonController@rewrite')->name('rewrite');

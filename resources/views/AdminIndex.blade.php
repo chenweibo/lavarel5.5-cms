@@ -115,7 +115,7 @@
                     <li class="J_tabFresh"><a>刷新</a>
                     </li>
 
-                    <li><a>清除缓存</a>
+                    <li><a onclick="clearCache()">清除缓存</a>
                     </li>
                     <li class="divider"></li>
                     <li class="J_tabShowActive"><a>定位当前选项卡</a>
@@ -127,7 +127,7 @@
                     </li>
                 </ul>
             </div>
-            <a href="/" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i>
+            <a href="{{ route('adminout') }}" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i>
                 退出</a>
         </div>
         <div class="row J_mainContent" id="content-main">
@@ -240,7 +240,8 @@
 <script src="{{ asset('static/admin/js/hplus.min.js?v=4.1.0')}}"></script>
 <script type="text/javascript" src="{{ asset('static/admin/js/contabs.js')}}"></script>
 <script src="{{ asset('static/admin/js/plugins/pace/pace.min.js')}}"></script>
-
+<script src="{{asset('static/admin/js/plugins/layer/layer.min.js')}}"></script>
+<script src="{{asset('static/admin/js/other.js')}}"></script>
 <script src="{{ asset('static/admin/js/plugins/toastr/toastr.min.js')}}"></script>
 
 

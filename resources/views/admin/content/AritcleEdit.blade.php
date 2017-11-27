@@ -335,7 +335,7 @@
                 });
 
             });
-            var info = '{!! $data['info'] !!}';
+            var info = '{!! compress_html($data['info']) !!}';
             editor(info);
         })
     </script>

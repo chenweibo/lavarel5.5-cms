@@ -21,17 +21,20 @@ class LoginController extends Controller
             $param = $request->except('_token');
             $user = DB::table('admin_user')->where('username', $param['username'])->get()->first();
 
-            $validator = Validator::make($param,
+            $validator = Validator::make(
+                $param,
                 [
                     'username' => 'required',
                     'password' => 'required',
                     'captcha' => 'required|captcha',
-                ], [
+                ],
+                [
                     'username.required' => '用户名不能为空',
                     'password.required' => '密码不能为空',
                     'captcha.required' => '验证码不能为空',
                     'captcha.captcha' => '验证码错误',
-                ]);
+                ]
+            );
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
 
@@ -63,6 +66,9 @@ class LoginController extends Controller
             DB::table('admin_user')->where('id', $user->id)->update($param1);
 
             return ['code' => 1, 'data' => route('AdminIndex'), 'msg' => '验证通过'];
+        }
+        if ($request->session()->has('adminuser')) {
+            return redirect()->route('AdminIndex');
         }
 
         return view('admin/login');

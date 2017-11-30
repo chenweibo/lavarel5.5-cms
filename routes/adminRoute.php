@@ -20,9 +20,6 @@ Route::get('mysitemap', function () {
     return ['code'=>1];
     // this will generate file mysitemap.xml to your public folder
 });
-
-
-
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 // 2017-8-3 by chenweibo common routes
 Route::any(config('site_other.admin_name'), 'Admin\LoginController@index')->name('jksm');
@@ -53,7 +50,7 @@ Route::group(['middleware' => ['adminbase','web'],'namespace' => 'Admin'], funct
     Route::get('/adminmain', 'AdminController@indexPage')->name('adminmain');
     Route::any('/site', 'AdminController@site')->name('site');
     Route::any('/site_system', 'AdminController@site_system')->name('site_system');
-
+    
     // 2017-7-16 by chenweibo slide routes
 
     Route::any('slide', 'AdminController@SlideIndex')->name('SlideIndex');
@@ -158,7 +155,7 @@ Route::group(['middleware' => ['adminbase','web'],'namespace' => 'Admin'], funct
     Route::any('/DetectionUpdate', 'UpdateController@DetectionUpdate')->name('DetectionUpdate');
     Route::any('/BackupSql', 'UpdateController@BackupSql')->name('BackupSql');
     Route::any('/ststem/update', 'UpdateController@update')->name('update');
-    
+
 
     Route::any('/Files', 'FilesController@Files')->name('Files');
 });

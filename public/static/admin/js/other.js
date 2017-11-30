@@ -577,7 +577,6 @@ function updateAjax()
       headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
-      async: false,
       beforeSend: function () {
          ac =layer.msg('更新中 请稍等 ，请勿刷新', {
                 icon: 16
@@ -620,7 +619,7 @@ function DetectionUpdate()
           }
           else {
 
-         var dd=    layer.open({
+         var a1 = layer.open({
               type: 1
               ,title: false //不显示标题栏
               ,closeBtn: false
@@ -634,7 +633,7 @@ function DetectionUpdate()
               ,success: function(layero){
                 var btn = layero.find('.layui-layer-btn0');
                 btn.click(function(event) {
-                layer.close(dd);
+                layer.close(a1);
                 updateAjax()
                 });
     //console.log(data.log);

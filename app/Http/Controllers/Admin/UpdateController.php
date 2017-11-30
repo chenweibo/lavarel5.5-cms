@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
 use Zipper;
+use File;
 
 class UpdateController extends Controller
 {
@@ -18,7 +19,10 @@ class UpdateController extends Controller
             $version = $res->getBody();
             $this->Backup();
             $this->downZip();
-            Zipper::make(base_path('base.zip'))->folder('')->extractTo(base_path());
+            $zipper = new \Chumper\Zipper\Zipper;
+            $zipper->make(base_path('base.zip'))->folder('')->extractTo(base_path());
+            $zipper->close();
+            File::delete(base_path('base.zip'));
             $data=[
              'version'=>$version,
              ];

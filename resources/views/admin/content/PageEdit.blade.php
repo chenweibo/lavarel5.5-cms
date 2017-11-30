@@ -35,8 +35,10 @@
                                 <div class="input-group col-sm-8">
                                     <div id="editor">
                                     </div>
+                                    <a  style="margin-top:10px"  id="opensetHtml"
+                                       class="btn btn-primary">设置原代码</a>
                                 </div>
-                                <input type="hidden" name="info" id="info" value=''>
+                                <input type="hidden" name="info" id="info" value='{{$data['info']}}'>
                             </div>
                             @foreach ($file as $v)
                              @if ($v->column_type==0)
@@ -170,8 +172,55 @@
 
 
         $(function () {
-            var info = '{!! compress_html($data["info"]) !!}';
-            editor(info);
+
+
+          var E = window.wangEditor
+          var editor = new E('#editor')
+          editor.customConfig.pasteFilterStyle = false
+          editor.customConfig.uploadImgServer = '/EditUploads'
+          editor.customConfig.uploadFileName = 'images[]'
+          editor.customConfig.uploadImgHeaders = {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+          editor.customConfig.onchange = function (html) {
+              $('#info').attr('value', html)
+          }
+
+          editor.create()
+          var info = '{!! compress_html($data['info']) !!}';
+
+          editor.txt.html(info);
+          $('#opensetHtml').click(function(event) {
+              var noehtml = editor.txt.html();
+              layer.open({
+                      type: 1,
+                      skin: 'layui-layer-filemove',
+                      btn: ['保存'],
+                      area: ['700px', '600px'],
+                      title: '设置源代码',
+                      anim: 1,
+                      content: '<html>\
+              <form class="layui-form" id="setHtmlForm" >\
+                     <textarea name="desc" id="newEditHtml" placeholder="请输入内容" style="height:500px" class="layui-textarea">'+noehtml+'</textarea>\
+            </form>\
+          </html>',
+                      success: function(layero, index){
+                          layui.use('form', function(){
+                              var form = layui.form();
+                              form.render();
+                          });
+                      },yes: function(index, layero){
+                          var newt = $('#newEditHtml').val();
+                          $('#info').val(newt);
+                          editor.txt.html(newt);
+                          layer.close(index)
+                      }
+
+                  }
+              );
+
+          });
+
         })
 
     </script>

@@ -151,8 +151,9 @@ class CommonController extends Controller
                 $path = $request->path;
                 $lid=explodepath($path);
                 $list=explode(',', $request->id);
+                $re=$Column->where('id', $lid)->get()->first();
                 foreach ($list as $v) {
-                    $content->where('id', $v)->update(['lid'=>$lid,'path'=>$path]);
+                    $content->where('id', $v)->update(['lid'=>$lid,'path'=>$path,'lang'=>$re->lang]);
                 }
                 return ['code' => 1];
             }
@@ -161,10 +162,12 @@ class CommonController extends Controller
                 $path = $request->path;
                 $lid=explodepath($path);
                 $list=explode(',', $request->id);
+                $re=$Column->where('id', $lid)->get()->first();
                 foreach ($list as $v) {
                     $str = $content->where('id', $v)->get()->first()->toArray();
                     $str['path'] = $path;
                     $str['lid'] = $lid;
+                    $str['lang'] =$re->lang;
                     $content->insert(array_except($str, ['id']));
                 }
                 return ['code' => 1 ];

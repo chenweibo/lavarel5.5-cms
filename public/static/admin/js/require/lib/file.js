@@ -48,28 +48,37 @@ define(['jquery','layer'],function ($,layer) {
   var suffix = arrfix[arrfix.length-1];
   if (suffix=='zip') {
     var icon='ico-zip';
+    operatingChange="<a  class='btlink' id='Unzip' >解压</a> |";
   }else if (suffix=='php') {
     var icon='ico-php';
+      operatingChange="<a  class='btlink' id='Zip' >压缩</a> |";
   }else if (suffix=='xml') {
     var icon='ico-xml';
+      operatingChange="<a  class='btlink' id='Zip' >压缩</a> |";
   }
   else if (suffix=='sql') {
     var icon='ico-sql';
+      operatingChange="<a  class='btlink' id='Zip' >压缩</a> |";
   }
   else if (suffix=='html') {
     var icon='ico-html';
+      operatingChange="<a  class='btlink' id='Zip' >压缩</a> |";
   }
   else if (suffix=='css') {
     var icon='ico-css';
+      operatingChange="<a  class='btlink' id='Zip' >压缩</a> |";
   }
   else if (suffix=='js') {
     var icon='ico-js';
+      operatingChange="<a  class='btlink' id='Zip' >压缩</a> |";
   }
   else if (suffix=='txt') {
     var icon='ico-txt';
+      operatingChange="<a  class='btlink' id='Zip' >压缩</a> |";
   }
   else {
     var icon='ico-file';
+      operatingChange="<a  class='btlink' id='Zip' >压缩</a> |";
 
   }
   $('.neir').append("<tr path='"+data.path+"'>\
@@ -80,7 +89,7 @@ define(['jquery','layer'],function ($,layer) {
   <td class='editmenu'><span>\
   <a  class='btlink' id='editFile' >编辑</a> |\
   <a id='renameFile'  class='btlink' >重命名</a> |\
-  <a  class='btlink' id='Zip' >压缩</a> |\
+  "+operatingChange+"\
   <a   id='FileDelete' data-type='file'   class='btlink' >删除</a> \
   </span>\
   </td>\

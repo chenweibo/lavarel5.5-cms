@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
 use App\UserType;
+use Cookie;
 
 class LoginController extends Controller
 {
@@ -62,7 +63,8 @@ class LoginController extends Controller
                 'last_login_ip' => $request->ip(),
                 'last_login_time' => time(),
             ];
-
+            //cookie('local_login', $request['username']);
+            //Cookie::queue('local_login', $request['username'], 60*24*7);
             DB::table('admin_user')->where('id', $user->id)->update($param1);
 
             return ['code' => 1, 'data' => route('AdminIndex'), 'msg' => '验证通过'];

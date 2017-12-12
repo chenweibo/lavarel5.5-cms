@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Route;
+use Cookie;
 
 class AdminBase
 {
@@ -16,6 +17,8 @@ class AdminBase
      */
     public function handle($request, Closure $next)
     {
+        //$cookies = $request->cookie();
+        //dd($cookies);
         if (!$request->session()->has('adminuser')) {
             return redirect('jksm');
         }

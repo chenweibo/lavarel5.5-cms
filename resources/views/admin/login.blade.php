@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -18,6 +17,9 @@
         }
         ;
     </script>
+<style media="screen">
+
+</style>
 
 </head>
 
@@ -48,6 +50,7 @@
                          style="float:right;cursor: pointer"/>
 
                 </div>
+                {{-- <input type="checkbox" name="remember" class="regular-radio" id="radio-1-1" value="1"><a >7天内免登陆</a> --}}
                 {{ csrf_field() }}
                 <input class="btn btn-success btn-block" id="login_btn" value="登录"/>
             </form>
@@ -95,8 +98,10 @@
                     }
                 },
                 error: function (msg) {
-                    var json = JSON.parse(msg.responseText);
-                    console.log(json);
+
+
+                    console.log(msg.responseJSON.message);
+                    alert(msg.responseJSON.message);
                 },
 
             })

@@ -20,7 +20,7 @@ class AdminBase
         //$cookies = $request->cookie();
         //dd($cookies);
         if (!$request->session()->has('adminuser')) {
-            return redirect('jksm');
+            return redirect(route('jksm'));
         }
         $route = Route::currentRouteName();
 

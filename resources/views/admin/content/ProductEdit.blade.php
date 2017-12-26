@@ -325,7 +325,6 @@
             });
             var E = window.wangEditor
             var editor = new E('#editor')
-            editor.customConfig.pasteFilterStyle = false
             editor.customConfig.uploadImgServer = '/EditUploads'
             editor.customConfig.uploadFileName = 'images[]'
             editor.customConfig.uploadImgHeaders = {
@@ -336,7 +335,7 @@
             }
 
             editor.create()
-            var info = '{!! compress_html($data['info']) !!}';
+            var info = '{!! addslashes(compress_html($data['info'])) !!}';
 
             editor.txt.html(info);
 

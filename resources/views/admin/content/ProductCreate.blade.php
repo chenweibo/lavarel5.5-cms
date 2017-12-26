@@ -303,7 +303,6 @@
             });
             var E = window.wangEditor
             var editor = new E('#editor')
-            editor.customConfig.pasteFilterStyle = false
             editor.customConfig.uploadImgServer = '/EditUploads'
             editor.customConfig.uploadFileName = 'images[]'
             editor.customConfig.uploadImgHeaders = {

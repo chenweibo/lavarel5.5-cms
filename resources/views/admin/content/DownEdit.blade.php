@@ -322,7 +322,7 @@
                 });
 
             });
-            var info = '{!! compress_html($data['info']) !!}';
+            var info = '{!! addslashes(compress_html($data['info'])) !!}';
             editor(info);
         })
     </script>

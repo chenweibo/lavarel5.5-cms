@@ -50,7 +50,7 @@ Route::group(['middleware' => ['adminbase','web'],'namespace' => 'Admin'], funct
     Route::get('/adminmain', 'AdminController@indexPage')->name('adminmain');
     Route::any('/site', 'AdminController@site')->name('site');
     Route::any('/site_system', 'AdminController@site_system')->name('site_system');
-    
+
     // 2017-7-16 by chenweibo slide routes
 
     Route::any('slide', 'AdminController@SlideIndex')->name('SlideIndex');
@@ -158,10 +158,12 @@ Route::group(['middleware' => ['adminbase','web'],'namespace' => 'Admin'], funct
 
 
     Route::any('/Files', 'FilesController@Files')->name('Files');
+    Route::any('/GetFiles', 'FilesController@GetFiles')->name('GetFiles');
+    Route::any('/RenameFile', 'FilesController@RenameFile')->name('RenameFile');
+    Route::any('/DelFile', 'FilesController@DelFile')->name('DelFile');
+    Route::any('/ZipFile', 'FilesController@ZipFile')->name('ZipFile');
+    Route::any('/EditFile', 'FilesController@EditFile')->name('EditFile');
+    Route::any('/GetFileContent', 'FilesController@GetFileContent')->name('EditFile');
+
+    //system route
 });
-  Route::any('/GetFiles', 'Admin\FilesController@GetFiles')->name('GetFiles');
-  Route::any('/RenameFile', 'Admin\FilesController@RenameFile')->name('RenameFile');
-  Route::any('/DelFile', 'Admin\FilesController@DelFile')->name('DelFile');
-  Route::any('/ZipFile', 'Admin\FilesController@ZipFile')->name('ZipFile');
-  Route::any('/EditFile', 'Admin\FilesController@EditFile')->name('EditFile');
-  Route::any('/GetFileContent', 'Admin\FilesController@GetFileContent')->name('EditFile');

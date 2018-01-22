@@ -73,7 +73,7 @@
                              @foreach ($file as $v)
                               @if ($v->column_type==0)
                                 <div class="form-group">
-                                    <label class="col-sm-1 control-label">{{$v->column_name}}：</label>
+                                    <label class="col-sm-1 control-label">{{$v->name}}：</label>
                                     <div class="input-group col-sm-4">
                                         <input id="{{$v->column_name}}" type="text" class="form-control" value=""
                                                name="{{$v->column_name}}" required aria-required="true">
@@ -82,7 +82,7 @@
                               @endif
                               @if ($v->column_type==1)
                                 <div class="form-group">
-                                    <label class="col-sm-1 control-label">{{$v->column_name}}：</label>
+                                    <label class="col-sm-1 control-label">{{$v->name}}：</label>
                                     <div class="input-group col-sm-4">
                                         <textarea class="layui-textarea" name="{{$v->column_name}}" rows="8" cols="80"></textarea>
                                     </div>
@@ -90,7 +90,7 @@
                               @endif
                               @if ($v->column_type==2)
                                 <div class="form-group">
-                                    <label class="col-sm-1 control-label">{{$v->column_name}}：</label>
+                                    <label class="col-sm-1 control-label">{{$v->name}}：</label>
                                     <div class="input-group col-sm-8">
                                         <div id="{{$v->column_name}}">
                                         </div>
@@ -113,7 +113,7 @@
                               @endif
                               @if ($v->column_type==3)
                                 <div class="form-group">
-                                    <label class="col-sm-1 control-label">{{$v->column_name}}：</label>
+                                    <label class="col-sm-1 control-label">{{$v->name}}：</label>
                                     <div class="col-md-4 input-group">
                                         <input type="file" name="image" style="display:none">
                                         <span class="input-group-addon" onclick="readyUp(event)"

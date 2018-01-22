@@ -208,9 +208,16 @@
                                             </div>
 
                                         </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">友情链接</label>
+                                            <div class="input-group col-sm-4">
+                                              <a style="margin-top:5px"  onclick="link(event)"
+                                                 	class="layui-btn layui-btn-primary   layui-btn-mini">点我</a>
+                                            </div>
+                                        </div>
 
                                         <div class="form-group">
-                                            <div class="col-sm-4 col-sm-offset-3">
+                                            <div class="col-sm-4 col-sm-offset-3" style="padding-right: 0px;padding-left: 0px; margin-top:10px">
                                                 <!--<input type="button" value="提交" class="btn btn-primary" id="postform"/>-->
                                                 <button class="btn btn-primary" type="submit">提交</button>
                                             </div>
@@ -330,6 +337,8 @@
 
             return false;
         }
+
+
     </script>
 
 

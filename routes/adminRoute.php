@@ -165,5 +165,7 @@ Route::group(['middleware' => ['adminbase','web'],'namespace' => 'Admin'], funct
     Route::any('/EditFile', 'FilesController@EditFile')->name('EditFile');
     Route::any('/GetFileContent', 'FilesController@GetFileContent')->name('EditFile');
 
-    //system route
+    //link routes
+    Route::any('/system/link', 'AdminController@links')->name('AdminLink');
+    ;
 });

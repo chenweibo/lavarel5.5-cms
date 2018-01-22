@@ -13,6 +13,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use App\UserType;
 use App\Content;
 use App\Gbook;
+use Validator;
 use Route;
 
 class AdminController extends Controller
@@ -52,11 +53,64 @@ class AdminController extends Controller
                 return ['code'=>'0','msg'=>'发生未知错误联系管理员'];
             }
         }
-        
+
         $data=File::getRequire(config_path().'/site.php');
         $shui=File::getRequire(config_path().'/site_other.php');
 
         return view('admin/site/Site', ['data'=>$data,'shui'=>$shui]);
+    }
+
+    public function links(Request $request)
+    {
+        if ($request->ajax()) {
+            //查询
+            if ($request->type==1) {
+                $data= DB::table('link')->orderBy('sort', 'asc')->get();
+                return ['code'=>1,'data'=>$data];
+            }
+            //插入
+            if ($request->type==2) {
+                $validator = Validator::make(
+            $request->all(),
+            [
+                'title' => 'required',
+                'link' => 'required',
+            ],
+              [
+                'title.required' => '您的姓名不能为空',
+                'link.required' => '链接不能为空',
+            ]
+                );
+                if ($validator->fails()) {
+                    $errors = $validator->errors()->first();
+                    return ['code'=>0,'msg'=>$errors];
+                }
+                DB::table('link')->insert($request->except('type', 'id'));
+                return ['code'=>1,'msg'=>'添加成功'];
+            }
+
+            //find id
+            if ($request->type==3) {
+                if ($res=DB::table('link')->where('id', $request->id)->get()->first()) {
+                    return ['code'=>1,'data'=>$res];
+                }
+                return ['code'=>1,'msg'=>"更新失败"];
+            }
+            //更新
+            if ($request->type==4) {
+                if (DB::table('link')->where('id', $request->id)->update($request->except('type'))) {
+                    return ['code'=>1,'msg'=>'更新成功'];
+                }
+                return ['code'=>0,'msg'=>"更新失败"];
+            }
+            //删除
+            if ($request->type==5) {
+                if (DB::table('link')->where('id', $request->id)->delete()) {
+                    return ['code'=>1,'msg'=>'删除成功'];
+                }
+                return ['code'=>0,'msg'=>"删除失败"];
+            }
+        }
     }
     public function site_system(Request $request)
     {

@@ -728,10 +728,255 @@ function clearCache()
       error: function () {
           layer.close(jz);
           layer.msg("清除失败。联系管理员");
-
       }
   });
+}
+function DelLink(id){
+
+  layer.confirm('确认删除?', {icon: 3, title: '提示'}, function (index) {
+      $.ajax({
+           url: "/system/link",
+          type: "post",
+          data: {'id': id,'type':5},
+          dataType: "json",
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          success: function (res) {
+              if (res.code == 1) {
+                  showlink();
+
+              } else {
+                  layer.alert('删除失败');
+              }
+          },
+          error: function (msg) {
+              layer.alert('权限不足联系管理员');
+          },
+      })
+      layer.close(index);
+  })
+}
+function EditLink(id){
+  var fa = layer.open({
+        type: 1,
+        skin: 'layui-layer-linksadd',
+        offset: '20%',
+        shade: 0,
+         area: ['40%', '40%'],
+        title: '友情链接:编辑',
+        anim: 1,
+        content: '<html>\
+      <div class="linkadd">\
+  <form class="layui-form" id="linkedit"  >\
+  <div class="layui-form-item">\
+    <label class="layui-form-label">名称</label>\
+    <div class="layui-input-block">\
+      <input type="text" name="title" required  lay-verify="required" placeholder="名称" autocomplete="off" class="layui-input">\
+    </div>\
+  </div>\
+  <div class="layui-form-item">\
+    <label class="layui-form-label">排序</label>\
+    <div class="layui-input-block">\
+      <input type="text" name="sort" required value=""  lay-verify="required" placeholder="排序" autocomplete="off" class="layui-input">\
+    </div>\
+  </div>\
+  <div class="layui-form-item">\
+    <label class="layui-form-label">链接</label>\
+    <div class="layui-input-block">\
+      <input type="text" name="link" required  lay-verify="required" placeholder="链接" autocomplete="off" class="layui-input">\
+    </div>\
+  </div>\
+  <div class="layui-form-item">\
+    <div class="layui-input-block">\
+      <input type="hidden" name="type" value="4">\
+      <input type="hidden" name="id" value="">\
+      <button class="layui-btn linkedit" type="button" >立即提交</button>\
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>\
+    </div>\
+  </div>\
+</form>\
+</div>\
+</html>',
+ success: function(layero, index){
+   $.ajax({
+       url: "/system/link",
+       type: "post",
+       data: {'type':3,'id':id},
+       dataType: "json",
+       headers: {
+           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+       },
+       success: function (res) {
+          $("#linkedit input[name=title]").attr('value', res.data.title);
+            $("#linkedit input[name=link]").attr('value', res.data.link);
+              $("#linkedit input[name=sort]").attr('value', res.data.sort);
+                $("#linkedit input[name=id]").attr('value', res.data.id);
+       },
+       error: function (msg) {
+           layer.alert('发生错误');
+       },
+   })
 
 
 
+   $(".linkedit").click(function(event) {
+     $.ajax({
+         url: "/system/link",
+         type: "post",
+         data: $('#linkedit').serialize(),
+         dataType: "json",
+         headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+         success: function (res) {
+            if (res.code==1) {
+               layer.close(fa);
+               showlink();
+            }
+            else {
+              layer.msg(res.msg);
+            }
+         },
+         error: function (msg) {
+             layer.alert('发生错误');
+         },
+     })
+   });
+  }
+    }
+  );
+
+}
+
+function addlink(){
+  var fa = layer.open({
+        type: 1,
+        skin: 'layui-layer-linksadd',
+        offset: '20%',
+        shade: 0,
+         area: ['40%', '40%'],
+        title: '友情链接:添加',
+        anim: 1,
+        content: '<html>\
+      <div class="linkadd">\
+  <form class="layui-form" id="linkadd"  >\
+  <div class="layui-form-item">\
+    <label class="layui-form-label">名称</label>\
+    <div class="layui-input-block">\
+      <input type="text" name="title" required  lay-verify="required" placeholder="名称" autocomplete="off" class="layui-input">\
+    </div>\
+  </div>\
+  <div class="layui-form-item">\
+    <label class="layui-form-label">排序</label>\
+    <div class="layui-input-block">\
+      <input type="text" name="sort" required value="99"  lay-verify="required" placeholder="排序" autocomplete="off" class="layui-input">\
+    </div>\
+  </div>\
+  <div class="layui-form-item">\
+    <label class="layui-form-label">链接</label>\
+    <div class="layui-input-block">\
+      <input type="text" name="link" required  lay-verify="required" placeholder="链接" autocomplete="off" class="layui-input">\
+    </div>\
+  </div>\
+  <div class="layui-form-item">\
+    <div class="layui-input-block">\
+      <input type="hidden" name="type" value="2">\
+      <button class="layui-btn linkinsert" type="button" >立即提交</button>\
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>\
+    </div>\
+  </div>\
+</form>\
+</div>\
+</html>',
+ success: function(layero, index){
+   $(".linkinsert").click(function(event) {
+     $.ajax({
+         url: "/system/link",
+         type: "post",
+         data: $('#linkadd').serialize(),
+         dataType: "json",
+         headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         },
+         success: function (res) {
+            if (res.code==1) {
+               layer.close(fa);
+               showlink();
+            }
+            else {
+              layer.msg(res.msg);
+            }
+         },
+         error: function (msg) {
+             layer.alert('发生错误');
+         },
+     })
+   });
+  }
+    }
+  );
+
+}
+function showlink(){
+   $(".linkbd").empty();
+  $.ajax({
+      url: "/system/link",
+      type: "post",
+      data: {'type':1},
+      dataType: "json",
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function (res) {
+          $.each(res.data,function(index, el) {
+              $(".linkbd").append("<tr><td>"+el['title']+"</td><td>"+el['link']+"</td><td>"+el['sort']+"</td><td><a href='javascript:EditLink("+el['id']+")' class='layui-btn  layui-btn-small'>编辑</a><a href='javascript:DelLink("+el['id']+")' class='layui-btn layui-btn-danger layui-btn-small' style='margin-left:5px;'>删除</a></td></tr>")
+          });
+      },
+  })
+
+}
+
+function link()
+{
+  var fa = layer.open({
+        type: 1,
+        skin: 'layui-layer-links',
+        offset: '7%',
+        area: ['85%', '85%'],
+        title: '友情链接',
+        anim: 1,
+        content: '<html>\
+        <div class="linkfather">\
+        <a  class="btn btn-primary linkaddbtn">添加</a>\
+        <table class="layui-table">\
+  <colgroup>\
+    <col width="150">\
+    <col width="200">\
+    <col width="200">\
+    <col width="200">\
+  </colgroup>\
+  <thead>\
+    <tr>\
+      <th>名称</th>\
+      <th>链接</th>\
+      <th>排序</th>\
+      <th>操作</th>\
+    </tr> \
+  </thead>\
+  <tbody class="linkbd">\
+  </tbody>\
+</table>\
+</div>\
+</html>',
+ success: function(layero, index){
+   showlink();
+   $(".linkaddbtn").bind("click",function(){
+    addlink('添加',2);
+});
+
+
+  }
+    }
+  );
 }
